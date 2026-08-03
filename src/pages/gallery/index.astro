@@ -1,8 +1,8 @@
 ---
 import Base from '../../layouts/Base.astro';
-// The gallery is built from the recovered control-panel photography. Astro
-// globs it at build time so dropping new files into public/img/gallery is all
-// it takes to add to the wall.
+// Built from the recovered control-panel photography. Astro globs it at build
+// time, so dropping new files into public/img/gallery is all it takes to add
+// to the wall.
 const images = Object.keys(import.meta.glob('/public/img/gallery/*.webp'))
   .map(p => p.replace('/public', ''))
   .sort();
@@ -14,14 +14,40 @@ const images = Object.keys(import.meta.glob('/public/img/gallery/*.webp'))
         <p class="eyebrow">Gallery</p>
         <h2 class="chrome">Tornado Spinner in the wild</h2>
         <p class="lede">For nearly twenty years the Tornado Spinner has been the premiere arcade spinner in
-          the world. The best part is seeing what people build around it. If you have a picture of your own
-          panel you would like to share, <a href="/contact/">send it to us</a>.</p>
+          the world. The best part is seeing what people build around it. Tap any panel to see it full
+          size — and if you have a picture of your own you would like to share,
+          <a href="/contact/">send it to us</a>.</p>
       </div>
+
       <div class="gal">
         {images.map((src, i) => (
-          <figure><img src={src} alt={`Arcade control panel ${i + 1}`} loading={i < 6 ? 'eager' : 'lazy'} width="900" height="190" /></figure>
+          <button class="tile" type="button" data-src={src} aria-label={`View arcade control panel ${i + 1} full size`}>
+            <img src={src} alt={`Arcade control panel ${i + 1}`} loading={i < 6 ? 'eager' : 'lazy'} />
+          </button>
         ))}
       </div>
     </div>
   </section>
+
+  <dialog id="lb" aria-label="Full size photograph">
+    <button id="lb-close" type="button" aria-label="Close">✕</button>
+    <img id="lb-img" alt="" />
+  </dialog>
+
+  <script is:inline>
+    const lb = document.getElementById('lb');
+    const lbImg = document.getElementById('lb-img');
+    document.querySelectorAll('.tile').forEach((t) => {
+      t.addEventListener('click', () => {
+        lbImg.src = t.dataset.src;
+        lbImg.alt = t.querySelector('img')?.alt || '';
+        lb.showModal();
+      });
+    });
+    const close = () => lb.close();
+    document.getElementById('lb-close').addEventListener('click', close);
+    // Clicking the backdrop (the dialog itself, not the picture) closes it.
+    lb.addEventListener('click', (e) => { if (e.target === lb) close(); });
+    lb.addEventListener('close', () => { lbImg.removeAttribute('src'); });
+  </script>
 </Base>
