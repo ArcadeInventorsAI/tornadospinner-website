@@ -1,0 +1,27 @@
+---
+import Base from '../../layouts/Base.astro';
+// The gallery is built from the recovered control-panel photography. Astro
+// globs it at build time so dropping new files into public/img/gallery is all
+// it takes to add to the wall.
+const images = Object.keys(import.meta.glob('/public/img/gallery/*.webp'))
+  .map(p => p.replace('/public', ''))
+  .sort();
+---
+<Base title="Gallery — Tornado Spinner" description="Control panels and cabinets built with the Tornado Spinner.">
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Gallery</p>
+        <h2 class="chrome">Tornado Spinner in the wild</h2>
+        <p class="lede">For nearly twenty years the Tornado Spinner has been the premiere arcade spinner in
+          the world. The best part is seeing what people build around it. If you have a picture of your own
+          panel you would like to share, <a href="/contact/">send it to us</a>.</p>
+      </div>
+      <div class="gal">
+        {images.map((src, i) => (
+          <figure><img src={src} alt={`Arcade control panel ${i + 1}`} loading={i < 6 ? 'eager' : 'lazy'} width="900" height="190" /></figure>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>

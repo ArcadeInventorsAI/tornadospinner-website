@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+<Base title="Contact — Tornado Spinner" description="Contact Arcade Inventors about the Tornado Spinner — sales, support and OEM enquiries.">
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Contact</p>
+        <h2 class="chrome">Send us a message</h2>
+        <p class="lede">Sales, support, OEM supply or a picture of your panel — it all reaches the same
+          people.</p>
+      </div>
+
+      <div class="two-col">
+        <form id="cform" class="tlnform">
+          <input type="text" name="company" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true" />
+          <label>Name*<input name="name" required /></label>
+          <label>Email*<input name="email" type="email" required /></label>
+          <label>Phone<input name="phone" /></label>
+          <label>Topic
+            <select name="interest">
+              <option>Ordering a Tornado Spinner</option>
+              <option>Technical support</option>
+              <option>OEM / bulk supply</option>
+              <option>Gallery photo submission</option>
+              <option>General question</option>
+            </select>
+          </label>
+          <label>Message*<textarea name="message" rows="6" required></textarea></label>
+          <button type="submit" class="btn">Send message</button>
+          <p id="cmsg" class="formmsg" role="status"></p>
+        </form>
+
+        <div>
+          <div class="detail"><span>Sales &amp; ordering</span><b><a href="tel:+18007898424">800-789-8424</a></b></div>
+          <div class="detail"><span>Technical support</span><b><a href="tel:+18007898424">800-789-8424</a> · option 4</b></div>
+          <div class="detail"><span>Customer service</span><b><a href="tel:+18007898424">800-789-8424</a> · option 3</b></div>
+          <div class="detail"><span>Fax</span><b>317-667-3132</b></div>
+          <div class="detail" style="border-bottom:0"><span>Administrative office</span>
+            <b>9225 Harrison Park Court<br />Indianapolis, IN 46216</b></div>
+          <div class="notice" style="margin-top:22px"><b>Store rebuild</b>
+            Our online store is being rebuilt. Until it is back, orders and quantity enquiries go through
+            this form or the sales line.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script is:inline>
+    const f = document.getElementById('cform');
+    const m = document.getElementById('cmsg');
+    f.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = f.querySelector('button[type=submit]');
+      btn.disabled = true; m.className = 'formmsg'; m.textContent = 'Sending…';
+      try {
+        const r = await fetch('/api/contact', {
+          method: 'POST', headers: { 'content-type': 'application/json' },
+          body: JSON.stringify(Object.fromEntries(new FormData(f).entries())),
+        });
+        const j = await r.json().catch(() => ({}));
+        if (r.ok && j.ok) { f.reset(); m.textContent = 'Thanks — your message is on its way. We will be in touch.'; m.className = 'formmsg ok'; }
+        else { m.textContent = j.error || 'Something went wrong. Please call 800-789-8424.'; m.className = 'formmsg err'; }
+      } catch (_) {
+        m.textContent = 'Could not send just now. Please call 800-789-8424.'; m.className = 'formmsg err';
+      }
+      btn.disabled = false;
+    });
+  </script>
+</Base>

@@ -1,0 +1,59 @@
+---
+import '../styles/global.css';
+const {
+  title = 'Tornado Spinner — The Best Arcade Spinner Ever Made',
+  description = 'The Tornado Spinner is the world’s first ultra-smooth custom arcade spinner, built in the USA for retro gaming, emulation and PC. A product of Arcade Inventors, LLC.',
+} = Astro.props;
+const path = Astro.url.pathname;
+const nav = [
+  { href: '/', label: 'Home' },
+  { href: '/about/', label: 'About Us' },
+  { href: '/gallery/', label: 'Gallery' },
+  { href: '/contact/', label: 'Contact' },
+];
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={`https://tornadospinner.com${path}`} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Tornado Spinner" />
+<link rel="icon" href="/img/logo.png" />
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context":"https://schema.org","@type":"Product","name":"Tornado Spinner",
+  "description":"The world's first ultra-smooth custom arcade spinner, designed for PCs, emulators and JAMMA boards.",
+  "brand":{"@type":"Brand","name":"Arcade Inventors, LLC"},
+  "manufacturer":{"@type":"Organization","name":"Arcade Inventors, LLC",
+    "address":{"@type":"PostalAddress","streetAddress":"9225 Harrison Park Court",
+      "addressLocality":"Indianapolis","addressRegion":"IN","postalCode":"46216","addressCountry":"US"},
+    "telephone":"+1-800-789-8424"},
+  "countryOfOrigin":"US"
+})} />
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a href="/" aria-label="Tornado Spinner home"><img src="/img/logo.png" alt="Tornado Spinner" /></a>
+      <nav>
+        {nav.map(n => <a href={n.href} aria-current={path === n.href ? 'page' : undefined}>{n.label}</a>)}
+      </nav>
+    </div>
+  </header>
+
+  <main><slot /></main>
+
+  <footer class="site">
+    <div class="wrap">
+      <p>TornadoSpinner.com is a property of <strong>Arcade Inventors, LLC</strong> · Indianapolis, Indiana</p>
+      <p>9225 Harrison Park Court, Indianapolis, IN 46216 · <a href="tel:+18007898424">800-789-8424</a></p>
+      <p>Designed and made in the United States. &copy; {new Date().getFullYear()} Arcade Inventors, LLC.</p>
+    </div>
+  </footer>
+</body>
+</html>
