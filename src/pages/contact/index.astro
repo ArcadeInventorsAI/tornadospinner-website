@@ -32,9 +32,9 @@ import Base from '../../layouts/Base.astro';
         </form>
 
         <div>
-          <div class="detail"><span>Sales &amp; ordering</span><b><a href="tel:+18007898424">800-789-8424</a></b></div>
-          <div class="detail"><span>Technical support</span><b><a href="tel:+18007898424">800-789-8424</a> · option 4</b></div>
-          <div class="detail" style="border-bottom:0"><span>Customer service</span><b><a href="tel:+18007898424">800-789-8424</a> · option 3</b></div>
+          <div class="detail"><span>Sales &amp; ordering</span><b><a href="tel:+18885046914">888-504-6914</a></b></div>
+          <div class="detail"><span>Technical support</span><b><a href="tel:+18885046914">888-504-6914</a></b></div>
+          <div class="detail" style="border-bottom:0"><span>Customer service</span><b><a href="tel:+18885046914">888-504-6914</a></b></div>
           <div class="notice" style="margin-top:22px"><b>Store rebuild</b>
             Our online store is being rebuilt. Until it is back, orders and quantity enquiries go through
             this form or the sales line.</div>
@@ -57,9 +57,9 @@ import Base from '../../layouts/Base.astro';
         });
         const j = await r.json().catch(() => ({}));
         if (r.ok && j.ok) { f.reset(); m.textContent = 'Thanks — your message is on its way. We will be in touch.'; m.className = 'formmsg ok'; }
-        else { m.textContent = j.error || 'Something went wrong. Please call 800-789-8424.'; m.className = 'formmsg err'; }
+        else { m.textContent = j.error || 'Something went wrong. Please call 888-504-6914.'; m.className = 'formmsg err'; }
       } catch (_) {
-        m.textContent = 'Could not send just now. Please call 800-789-8424.'; m.className = 'formmsg err';
+        m.textContent = 'Could not send just now. Please call 888-504-6914.'; m.className = 'formmsg err';
       }
       btn.disabled = false;
     });
