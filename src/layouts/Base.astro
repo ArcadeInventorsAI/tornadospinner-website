@@ -31,7 +31,7 @@ const nav = [
   "brand":{"@type":"Brand","name":"Arcade Inventors, LLC"},
   "manufacturer":{"@type":"Organization","name":"Arcade Inventors, LLC",
     "address":{"@type":"PostalAddress","addressLocality":"Indianapolis","addressRegion":"IN","addressCountry":"US"},
-    "telephone":"+1-800-789-8424"},
+    "telephone":"+1-888-504-6914"},
   "countryOfOrigin":"US",
   "review":[{
     "@type":"Review",
@@ -47,6 +47,7 @@ const nav = [
       <a href="/" aria-label="Tornado Spinner home"><img src="/img/logo.png" alt="Tornado Spinner" /></a>
       <nav>
         {nav.map(n => <a href={n.href} aria-current={path === n.href ? 'page' : undefined}>{n.label}</a>)}
+        <a class="callcta" href="tel:+18885046914">📞 888-504-6914</a>
       </nav>
     </div>
   </header>
@@ -56,7 +57,7 @@ const nav = [
   <footer class="site">
     <div class="wrap">
       <p>TornadoSpinner.com is a property of <strong>Arcade Inventors, LLC</strong> · Indianapolis, Indiana</p>
-      <p><a href="tel:+18007898424">800-789-8424</a></p>
+      <p><a href="tel:+18885046914">888-504-6914</a></p>
       <p>Designed and made in the United States. &copy; {new Date().getFullYear()} Arcade Inventors, LLC.</p>
     </div>
   </footer>

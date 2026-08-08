@@ -77,6 +77,8 @@ p{margin:0}
   font:800 11.5px/1 system-ui,sans-serif;letter-spacing:.11em;text-transform:uppercase}
 .topbar nav a:hover{color:var(--chrome);background:#0f1a25}
 .topbar nav a[aria-current="page"]{color:var(--cyan)}
+.topbar nav a.callcta{color:var(--cyan);border:1px solid var(--cyan);letter-spacing:.06em}
+.topbar nav a.callcta:hover{color:#04070b;background:var(--cyan)}
 @media (max-width:620px){ .topbar img{height:32px} .topbar nav a{padding:8px 9px;font-size:10.5px} }
 
 /* ── hero ────────────────────────────────────────────── */
