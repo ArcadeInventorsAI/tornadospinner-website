@@ -1,0 +1,253 @@
+---
+import Base from '../../layouts/Base.astro';
+
+// Settings transcribed from the TS_200 DIP Switch Guide. The guide poster is 3000x6012 —
+// unusable on a phone next to an open cabinet — so it is real text here, and the poster
+// stays as the linked full-resolution reference.
+const speed = [
+  { n: 4, add: 1 }, { n: 5, add: 2 }, { n: 6, add: 4 }, { n: 7, add: 8 }, { n: 8, add: 16 },
+];
+---
+<Base title="Support — Tornado Spinner DIP Switch Settings | Arcade Inventors"
+      description="How to set the DIP switches on the Tornado Spinner TS_200 control board: axis, direction and speed, with a video walkthrough and an interactive switch calculator.">
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Support · TS_200</p>
+        <h2 class="chrome">Small switches. Big control.</h2>
+        <p class="lede">
+          Choose an axis. Set your direction. Dial in your speed. The black block on your control
+          board is the DIP switch bank — eight sliders doing three jobs. Switch&nbsp;1 picks the
+          axis, switches&nbsp;2&ndash;3 reverse direction, switches&nbsp;4&ndash;8 add speed.
+        </p>
+      </div>
+
+      <div class="notice">
+        <h3>Before you change anything</h3>
+        <ol>
+          <li><strong>Unplug the USB cable.</strong> Adjust the switches. Reconnect and test.</li>
+          <li><strong>Slide it, don't flip it.</strong> Move the white slider gently to the end of its short slot.</li>
+          <li>
+            <strong>Use UP and DOWN — not ON and OFF.</strong> The board is silkscreened
+            <code>ON</code> along one edge, which is easy to misread. Orient by the board instead:
+            <em>UP is toward the top connector, DOWN is toward the printed switch numbers.</em>
+          </li>
+        </ol>
+      </div>
+
+      <h3 class="hd">Watch the 30-second walkthrough</h3>
+      <figure class="vid">
+        <video controls preload="metadata" playsinline muted width="1200" height="800"
+               poster="/support/animated-guide-poster.webp"
+               src="/support/animated-guide.mp4"
+               aria-label="Animated guide to the Tornado Spinner DIP switches"></video>
+        <figcaption>
+          All eight switches. 32 seconds, no sound.
+          <a href="/support/animated-guide.mp4" download>Download the video</a>
+        </figcaption>
+      </figure>
+
+      <h3 class="hd">Find the switches on your board</h3>
+      <div class="two">
+        <figure>
+          <a href="/support/pcb-photo-full.jpg" target="_blank" rel="noopener">
+            <img src="/support/pcb-photo.webp" alt="The TS_200 control board, with the eight-way DIP switch bank at lower right" loading="lazy" decoding="async">
+          </a>
+          <figcaption>
+            Your board reads <code>TS_200 Ver 01.00 · Tornado Spinner · Arcade Inventors</code>.
+            The DIP bank is <code>SW1</code> at lower right, with <code>SPEED</code> bracketed
+            under switches&nbsp;4&ndash;8 and <code>X</code>/<code>Y</code> marked by 1&ndash;3.
+          </figcaption>
+        </figure>
+        <figure>
+          <a href="/support/parts-overview-full.png" target="_blank" rel="noopener">
+            <img src="/support/parts-overview.webp" alt="Cut-away of a complete Tornado Spinner: knob, shaft, sprocket, energy cylinder, control board and USB cable" loading="lazy" decoding="async">
+          </a>
+          <figcaption>A complete spinner: knob, shaft, sprocket, energy cylinder, control board and USB lead.</figcaption>
+        </figure>
+      </div>
+
+      <h3 class="hd">Set it with the calculator</h3>
+      <p class="muted">Tap a switch to move it. The readout matches what your spinner will do.</p>
+
+      <div class="calc">
+        <div class="bank" role="group" aria-label="DIP switch bank">
+          {[1,2,3,4,5,6,7,8].map((n) => (
+            <button class="sw" type="button" data-n={n} aria-pressed="false">
+              <span class="slot"><span class="slider"></span></span>
+              <span class="num">{n}</span>
+            </button>
+          ))}
+        </div>
+        <p class="legend"><span class="u">UP</span> is the top of the slot &middot; <span class="d">DOWN</span> is toward the numbers</p>
+        <dl class="readout">
+          <div><dt>Axis</dt><dd id="r-axis">&mdash;</dd></div>
+          <div><dt>Direction</dt><dd id="r-dir">&mdash;</dd></div>
+          <div><dt>Added speed</dt><dd id="r-speed">&mdash;</dd></div>
+        </dl>
+        <p class="sum" id="r-sum"></p>
+        <button class="btn ghost reset" type="button" id="r-reset">Reset all to UP</button>
+      </div>
+
+      <h3 class="hd">What each switch does</h3>
+      <h4 class="sub">Switches 1&ndash;3 &mdash; axis and direction</h4>
+      <table class="t">
+        <thead><tr><th>Switch</th><th>UP</th><th>DOWN</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td><b>1</b> Axis</td><td>X axis &mdash; left / right</td><td>Y axis &mdash; up / down</td>
+              <td>Chooses which mouse axis the spinner controls.</td></tr>
+          <tr><td><b>2</b> Reverse X</td><td>Direction A</td><td>Opposite &mdash; swaps left &harr; right</td>
+              <td>Affects X only. Use when switch&nbsp;1 is UP.</td></tr>
+          <tr><td><b>3</b> Reverse Y</td><td>Direction A</td><td>Opposite &mdash; swaps up &updownarrow; down</td>
+              <td>Affects Y only. Use when switch&nbsp;1 is DOWN.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="notice soft">
+        <p>
+          <strong>Check direction on your own unit.</strong> Turn the sprocket clockwise and watch
+          the cursor. If it goes the wrong way, change switch&nbsp;2 (for X) or switch&nbsp;3 (for Y).
+          &ldquo;Direction A&rdquo; is a reference position, <em>not</em> a verified left/right or
+          up/down mapping.
+        </p>
+      </div>
+
+      <h4 class="sub">Switches 4&ndash;8 &mdash; speed</h4>
+      <p class="muted">Each switch adds its number when <strong>DOWN</strong> and nothing when <strong>UP</strong>. Add together only the DOWN switches.</p>
+      <table class="t">
+        <thead><tr><th>Switch</th><th>UP</th><th>DOWN</th></tr></thead>
+        <tbody>
+          {speed.map((s) => (<tr><td><b>{s.n}</b></td><td>adds 0</td><td>adds <b>+{s.add}</b></td></tr>))}
+        </tbody>
+      </table>
+      <p class="muted">
+        Range is <b>+0</b> through <b>+31</b> (1 + 2 + 4 + 8 + 16). Example: switches&nbsp;4 and&nbsp;6
+        DOWN gives 1 + 4 = <b>+5</b>.
+      </p>
+      <div class="notice soft">
+        <p>
+          These are <strong>added</strong> speed values &mdash; not multipliers, and not a stated base
+          speed. <strong>+0 does not mean the spinner is stopped.</strong>
+        </p>
+      </div>
+
+      <h3 class="hd">The full printed guide</h3>
+      <figure class="poster">
+        <a href="/support/dip-switch-guide-full.png" target="_blank" rel="noopener">
+          <img src="/support/dip-switch-guide.webp" alt="The complete TS_200 DIP switch guide" loading="lazy" decoding="async">
+        </a>
+        <figcaption>
+          <a href="/support/dip-switch-guide-full.png" download>Download the full-size guide (PNG, 3.4&nbsp;MB)</a>
+          &mdash; best for printing or pinching in on a phone.
+        </figcaption>
+      </figure>
+
+      <div class="notice">
+        <p>
+          Settings here are for the photographed <strong>TS_200 Ver 01.00</strong> board. Always check
+          the printed switch numbers on your own board before changing anything.
+        </p>
+      </div>
+
+      <div class="cta-row" style="margin-top:30px">
+        <a class="btn" href="/contact/">Still stuck? Talk to us</a>
+        <a class="btn ghost" href="/gallery/">See the gallery</a>
+      </div>
+    </div>
+  </section>
+
+  <script is:inline>
+  (function () {
+    var btns = [].slice.call(document.querySelectorAll('.sw'));
+    if (!btns.length) return;
+    var ADD = { 4: 1, 5: 2, 6: 4, 7: 8, 8: 16 };
+    var down = {};
+    function render() {
+      var xAxis = !down[1];
+      document.getElementById('r-axis').textContent = xAxis ? 'X — left / right' : 'Y — up / down';
+      var rel = xAxis ? 2 : 3;
+      document.getElementById('r-dir').textContent =
+        (down[rel] ? 'Opposite' : 'Direction A') + ' (switch ' + rel + ')';
+      var total = 0, parts = [], on = [];
+      for (var n = 4; n <= 8; n++) if (down[n]) { total += ADD[n]; parts.push(ADD[n]); on.push(n); }
+      document.getElementById('r-speed').textContent = '+' + total;
+      document.getElementById('r-sum').textContent = parts.length
+        ? parts.join(' + ') + ' = +' + total + '   (switches ' + on.join(', ') + ' DOWN)'
+        : 'All speed switches UP — adds nothing. This is not "stopped".';
+      btns.forEach(function (b) {
+        var n = +b.dataset.n;
+        b.setAttribute('aria-pressed', down[n] ? 'true' : 'false');
+        b.classList.toggle('on', !!down[n]);
+        b.classList.toggle('mute', (n === 2 && !xAxis) || (n === 3 && xAxis));
+      });
+    }
+    btns.forEach(function (b) {
+      b.addEventListener('click', function () { var n = +b.dataset.n; down[n] = !down[n]; render(); });
+    });
+    document.getElementById('r-reset').addEventListener('click', function () { down = {}; render(); });
+    render();
+  })();
+  </script>
+
+  <style>
+    .hd{font-size:clamp(17px,2.3vw,22px);font-weight:900;text-transform:uppercase;color:var(--chrome);
+      letter-spacing:.01em;margin:44px 0 14px;padding-bottom:9px;border-bottom:1px solid var(--line)}
+    .sub{font-size:16px;font-weight:800;color:var(--cyan-hi);margin:26px 0 10px;text-transform:uppercase;letter-spacing:.03em}
+    .muted{color:var(--body);line-height:1.65;max-width:72ch}
+    code{background:var(--panel-2);border:1px solid var(--line);border-radius:3px;padding:1px 5px;
+      font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:.88em;color:var(--cyan-hi)}
+    .notice{margin:22px 0;padding:18px 20px;border:1px solid var(--amber);border-radius:6px;
+      background:rgba(255,176,32,.06)}
+    .notice.soft{border-color:var(--line);background:var(--panel-2)}
+    .notice h3{font-size:15px;text-transform:uppercase;letter-spacing:.04em;color:var(--amber);margin:0 0 10px}
+    .notice ol{margin:0;padding-left:20px;color:var(--body);line-height:1.7}
+    .notice li{margin-bottom:7px}
+    .notice p{margin:0;color:var(--body);line-height:1.7}
+    .notice strong,.notice em{color:var(--chrome)}
+    .vid{margin:0}
+    .vid video{width:100%;max-width:860px;aspect-ratio:3/2;height:auto;display:block;
+      border:1px solid var(--line);border-radius:6px;background:#000;object-fit:contain}
+    .vid figcaption,.two figcaption,.poster figcaption{color:var(--mute);font-size:14px;margin-top:9px;line-height:1.6}
+    .vid a,.two a,.poster a{color:var(--cyan)}
+    .two{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+    .two figure,.poster{margin:0}
+    .two img,.poster img{width:100%;height:auto;display:block;border:1px solid var(--line);border-radius:6px}
+    .two a:hover img,.poster a:hover img{border-color:var(--cyan)}
+    .poster img{max-width:640px}
+    .calc{border:1px solid var(--line);border-radius:8px;background:var(--panel);padding:24px;margin:16px 0 0}
+    .bank{display:flex;gap:7px;justify-content:center;flex-wrap:wrap}
+    .sw{background:var(--panel-2);border:1px solid var(--line);border-radius:5px;padding:9px 7px 7px;
+      cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;min-width:46px}
+    .sw:hover{border-color:var(--cyan)}
+    .sw.mute{opacity:.36}
+    .slot{width:19px;height:44px;background:var(--void);border-radius:2px;position:relative;display:block}
+    .slider{position:absolute;left:2px;right:2px;top:2px;height:19px;background:var(--chrome);
+      border-radius:1px;transition:top .14s}
+    .sw.on .slider{top:23px;background:var(--amber)}
+    .num{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:11px;color:var(--dim)}
+    .sw.on .num{color:var(--amber)}
+    .legend{text-align:center;color:var(--mute);font-size:13px;margin:12px 0 0}
+    .legend .u{color:var(--chrome)} .legend .d{color:var(--amber)}
+    .readout{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+      margin:20px 0 0;padding-top:18px;border-top:1px solid var(--line)}
+    .readout div{text-align:center}
+    .readout dt{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:11px;
+      color:var(--cyan);letter-spacing:.08em;text-transform:uppercase}
+    .readout dd{margin:8px 0 0;font-size:19px;font-weight:800;color:var(--chrome)}
+    .sum{text-align:center;color:var(--mute);font-size:14px;margin:14px 0 0;min-height:1.2em}
+    .reset{display:block;margin:18px auto 0;width:max-content}
+    .t{width:100%;border-collapse:collapse;margin:10px 0 4px;font-size:15px}
+    .t th,.t td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+    .t th{font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--cyan)}
+    .t td{color:var(--body);line-height:1.6}
+    .t td b{color:var(--chrome)}
+    .t td:first-child{white-space:nowrap;color:var(--chrome)}
+    @media (max-width:620px){
+      .t,.t thead,.t tbody,.t tr,.t td{display:block;width:100%}
+      .t thead{display:none}
+      .t tr{border:1px solid var(--line);border-radius:6px;margin-bottom:10px;padding:4px 0}
+      .t td{border:0;padding:7px 12px}
+      .t td:first-child{color:var(--cyan)}
+    }
+  </style>
+</Base>

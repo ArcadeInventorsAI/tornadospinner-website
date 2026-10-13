@@ -1,5 +1,5 @@
 import { defineConfig } from 'astro/config';
 export default defineConfig({
-  site: 'https://videogamepalooza.org',
+  site: 'https://tornadospinner.com',
   build: { format: 'directory' },
 });
